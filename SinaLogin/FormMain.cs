@@ -15,5 +15,20 @@ namespace SinaLogin
         {
             InitializeComponent();
         }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            Weibo wb = new Weibo(txtUsername.Text, txtPassword.Text);
+            Image pinImage = wb.StartLogin();
+            if (pinImage != null)
+            {
+                picPIN.Image = pinImage;
+            }
+            else
+            {
+                wb.EndLogin(null);
+                txtRet.Text = wb.Get("http://weibo.com/guide/welcome");
+            }
+        }
     }
 }
