@@ -23,6 +23,7 @@ namespace SinaLogin
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            txtPIN.Enabled = false;
             if (!needPIN)
             {
                 wb = new Weibo(txtUsername.Text, txtPassword.Text);
@@ -31,17 +32,21 @@ namespace SinaLogin
                 {
                     picPIN.Image = pinImage;
                     needPIN = true;
+                    labelState.Text = "请填写验证码";
+                    txtPIN.Enabled = true;
                 }
                 else
                 {
                     wb.EndLogin(null);
-                    txtRet.Text = wb.Get("http://weibo.com/guide/welcome");
+                    txtRet.Text = wb.Get("http://weibo.com/");
+                    labelState.Text = "登录成功！";
                 }
             }
             else
             {
                 wb.EndLogin(txtPIN.Text);
-                txtRet.Text = wb.Get("http://weibo.com/guide/welcome");
+                txtRet.Text = wb.Get("http://weibo.com/");
+                labelState.Text = "登录成功！";
             }
         }
     }

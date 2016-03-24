@@ -42,7 +42,7 @@ namespace SinaLogin
         public Image StartLogin()
         {
             GetParameter();
-            if(showpin == "1")
+            if (showpin == "1")
             {
                 return GetPIN();
             }
@@ -59,7 +59,7 @@ namespace SinaLogin
 
         public string Get(string url)
         {
-            return HttpHelper.Get(url, loginCookie);
+            return HttpHelper.Get(url, loginCookie, true);
         }
 
         private void GetParameter()
@@ -104,7 +104,7 @@ namespace SinaLogin
                             + "&nonce=" + nonce
                             + "&pwencode=rsa2&rsakv=" + RSAKV + "&sp=" + sp
                             + "&sr=1366*768&encoding=UTF-8&prelt=104&url=http%3A%2F%2Fweibo.com%2Fajaxlogin.php%3Fframelogin%3D1%26callback%3Dparent.sinaSSOController.feedBackUrlCallBack&returntype=META";
-            if(showpin == "1" && door != null)
+            if (showpin == "1" && door != null)
             {
                 postData += "&pcid=" + pcid + "&door=" + door;
             }
@@ -115,7 +115,7 @@ namespace SinaLogin
             {
                 pos = content.IndexOf("location.replace");
                 string url = content.Substring(pos + 18, 285); //这里出错,浪费了我16小时检查出来,果然是太累了,妈蛋啊
-                content = HttpHelper.Get(url, myCookieContainer);
+                content = HttpHelper.Get(url, myCookieContainer, false);
                 return myCookieContainer;
             }
             else

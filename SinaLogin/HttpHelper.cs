@@ -16,12 +16,12 @@ namespace SinaLogin
         /// <param name="url">请求的URL</param>
         /// <param name="myCookieContainer">随同HTTP请求发送的Cookie信息</param>
         /// <returns>返回字符串</returns>
-        public static string Get(string url, CookieContainer myCookieContainer)
+        public static string Get(string url, CookieContainer myCookieContainer, bool autoRedirect)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
             request.CookieContainer = myCookieContainer;
-            request.AllowAutoRedirect = false;
+            request.AllowAutoRedirect = autoRedirect;
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
             string retStr = sr.ReadToEnd();
