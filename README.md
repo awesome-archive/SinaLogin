@@ -1,6 +1,8 @@
 # C#实现新浪微博模拟登陆
 以前写的，现在重构了一下代码。
+
 ## 界面
+![界面](https://raw.githubusercontent.com/huiyadanli/SinaLogin/master/img/screenshot0.png)
 
 ## 模拟登陆原理
 1.输入用户名时，发送如下GET请求，返回一大堆登陆所需要的参数。其中`entry` `callback` `rsakt`  `client`参数都是固定不变的，`su`是经过Base64加密后的用户名，`checkpin` =1时，会返回`showpin`告诉你是否需要验证码，`_`很明显是时间戳，没有这个参数也可以正常得到返回信息。
@@ -31,3 +33,6 @@ callback%3Dparent.sinaSSOController.feedBackUrlCallBack&returntype=META
 POST以后会返回一个页面，location.replace 后面就是下一步要跳转的页面，其中还有个retcode参数告诉你登陆的结果（0-登陆成功，2070-验证码错误，4049-验证码为空，101密码错误）
 
 跳转到那个页面，就可以得到登陆的cookie，模拟登陆完成。
+
+## License
+WTFPL
