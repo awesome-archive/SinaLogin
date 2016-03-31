@@ -75,7 +75,7 @@ namespace SinaLogin
             pos = content.IndexOf("nonce");
             nonce = content.Substring(pos + 8, 6);
             pos = content.IndexOf("showpin");
-            showpin = content.Substring(pos + 7, 1);
+            showpin = content.Substring(pos + 9, 1);
         }
 
         private Image GetPIN()
