@@ -23,6 +23,7 @@ namespace SinaLogin
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            btnStart.Text = "开始登陆";
             txtPIN.Enabled = false;
             if (!needPIN)
             {
@@ -34,19 +35,29 @@ namespace SinaLogin
                     needPIN = true;
                     labelState.Text = "请填写验证码";
                     txtPIN.Enabled = true;
+                    btnStart.Text = "继续登陆";
                 }
                 else
                 {
-                    wb.EndLogin(null);
+                    labelState.Text = "登录结果：" + wb.EndLogin(null);
+                    btnStart.Text = "重新登陆";
                     txtRet.Text = wb.Get("http://weibo.com/");
-                    labelState.Text = "登录成功！";
                 }
             }
             else
             {
-                wb.EndLogin(txtPIN.Text);
-                txtRet.Text = wb.Get("http://weibo.com/");
-                labelState.Text = "登录成功！";
+                if (txtPIN.Text.Trim() != "")
+                {
+                    needPIN = false;
+                    labelState.Text = "登录结果：" + wb.EndLogin(txtPIN.Text.Trim());
+                    btnStart.Text = "重新登陆";
+                    txtRet.Text = wb.Get("http://weibo.com/");
+                }
+                else
+                {
+                    MessageBox.Show("请填写验证码");
+                    txtPIN.Enabled = true;
+                }
             }
         }
     }

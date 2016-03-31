@@ -52,9 +52,11 @@ namespace SinaLogin
             }
         }
 
-        public void EndLogin(string door)
+        public string EndLogin(string door)
         {
-            loginCookie = GetCookie(door);
+            string retcode;
+            loginCookie = GetCookie(door, out retcode);
+            return retcode;
         }
 
         public string Get(string url)
@@ -95,7 +97,7 @@ namespace SinaLogin
             return obj.ToString();
         }
 
-        private CookieContainer GetCookie(string door)
+        private CookieContainer GetCookie(string door, out string retcode)
         {
             CookieContainer myCookieContainer = new CookieContainer();
             string sp = GetSP(Password, servertime, nonce, PUBKEY);//得到加密后的密码
@@ -110,7 +112,7 @@ namespace SinaLogin
             }
             string content = HttpHelper.Post("http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.18)", postData);
             int pos = content.IndexOf("retcode=");
-            string retcode = content.Substring(pos + 8, 1);
+            retcode = content.Substring(pos + 8, 1);
             if (retcode == "0")
             {
                 pos = content.IndexOf("location.replace");
@@ -120,6 +122,7 @@ namespace SinaLogin
             }
             else
             {
+                retcode = content.Substring(pos + 8, 4);
                 return null;
             }
         }
