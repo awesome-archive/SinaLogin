@@ -12,7 +12,14 @@ namespace SinaLogin
 {
     public class Weibo
     {
+        /// <summary>
+        /// 用户名
+        /// </summary>
         public string Username { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
         public string Password { get; set; }
 
         //存放登陆后的cookie
@@ -27,7 +34,11 @@ namespace SinaLogin
         private string nonce; //预登录参数3（随机数）
         private string showpin; //预登录参数4（是否需要验证码）
 
-
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="username">用户名</param>
+        /// <param name="password">密码</param>
         public Weibo(string username, string password)
         {
             this.Username = username;
@@ -39,6 +50,10 @@ namespace SinaLogin
             su = Convert.ToBase64String(suByte);
         }
 
+        /// <summary>
+        /// 开始登陆
+        /// </summary>
+        /// <returns>验证码图片</returns>
         public Image StartLogin()
         {
             GetParameter();
@@ -52,6 +67,11 @@ namespace SinaLogin
             }
         }
 
+        /// <summary>
+        /// 结束登陆
+        /// </summary>
+        /// <param name="door">验证码</param>
+        /// <returns>结果码</returns>
         public string EndLogin(string door)
         {
             string retcode;
@@ -59,11 +79,19 @@ namespace SinaLogin
             return retcode;
         }
 
+        /// <summary>
+        /// 使用登陆后得到的 cookie 进行GET （自动跳转）
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public string Get(string url)
         {
             return HttpHelper.Get(url, loginCookie, true);
         }
 
+        /// <summary>
+        /// 预登录得到所需的参数
+        /// </summary>
         private void GetParameter()
         {
             string url = "http://login.sina.com.cn/sso/prelogin.php?entry=weibo&callback=sinaSSOController.preloginCallBack&su="
@@ -80,12 +108,24 @@ namespace SinaLogin
             showpin = content.Substring(pos + 9, 1);
         }
 
+        /// <summary>
+        /// 获取验证码图片
+        /// </summary>
+        /// <returns></returns>
         private Image GetPIN()
         {
             string url = "http://login.sina.com.cn/cgi/pin.php?p=" + pcid;
             return HttpHelper.GetImage(url);
         }
 
+        /// <summary>
+        /// 对密码进行RSA2加密
+        /// </summary>
+        /// <param name="pwd"></param>
+        /// <param name="servertime"></param>
+        /// <param name="nonce"></param>
+        /// <param name="pubkey"></param>
+        /// <returns></returns>
         private string GetSP(string pwd, string servertime, string nonce, string pubkey)
         {
             StreamReader sr = new StreamReader("sinaSSOEncoder"); //从文本中读取修改过的JS
@@ -97,6 +137,12 @@ namespace SinaLogin
             return obj.ToString();
         }
 
+        /// <summary>
+        /// 得到cookie
+        /// </summary>
+        /// <param name="door"></param>
+        /// <param name="retcode"></param>
+        /// <returns></returns>
         private CookieContainer GetCookie(string door, out string retcode)
         {
             CookieContainer myCookieContainer = new CookieContainer();
