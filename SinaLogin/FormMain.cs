@@ -14,7 +14,7 @@ namespace SinaLogin
         //下一步
         //把登录过程放在后台线程中
         bool needPIN = false;
-        Weibo wb;
+        WeiboLogin wb;
 
         public FormMain()
         {
@@ -27,8 +27,8 @@ namespace SinaLogin
             txtPIN.Enabled = false;
             if (!needPIN)
             {
-                wb = new Weibo(txtUsername.Text, txtPassword.Text);
-                Image pinImage = wb.StartLogin();
+                wb = new WeiboLogin(txtUsername.Text, txtPassword.Text);
+                Image pinImage = wb.Start();
                 if (pinImage != null)
                 {
                     picPIN.Image = pinImage;
@@ -39,7 +39,7 @@ namespace SinaLogin
                 }
                 else
                 {
-                    labelState.Text = "登录结果：" + wb.EndLogin(null);
+                    labelState.Text = "登录结果：" + wb.End(null);
                     btnStart.Text = "重新登陆";
                     txtRet.Text = wb.Get("http://weibo.com/");
                 }
@@ -49,7 +49,7 @@ namespace SinaLogin
                 if (txtPIN.Text.Trim() != "")
                 {
                     needPIN = false;
-                    labelState.Text = "登录结果：" + wb.EndLogin(txtPIN.Text.Trim());
+                    labelState.Text = "登录结果：" + wb.End(txtPIN.Text.Trim());
                     btnStart.Text = "重新登陆";
                     txtRet.Text = wb.Get("http://weibo.com/");
                 }
