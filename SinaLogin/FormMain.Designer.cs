@@ -43,6 +43,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.bgwLogin = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.picPIN)).BeginInit();
             this.SuspendLayout();
             // 
@@ -179,6 +180,10 @@
             this.label8.TabIndex = 14;
             this.label8.Text = "0-登录成功";
             // 
+            // bgwLogin
+            // 
+            this.bgwLogin.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwLogin_DoWork);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -224,6 +229,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.ComponentModel.BackgroundWorker bgwLogin;
     }
 }
 
