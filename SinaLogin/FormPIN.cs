@@ -29,7 +29,7 @@ namespace SinaLogin
         {
             if (txtPIN.Text.Trim() != "")
             {
-                this.Tag = txtPIN.Text;
+                this.Tag = txtPIN.Text.Trim();
                 this.DialogResult = DialogResult.OK;
             }
             else
