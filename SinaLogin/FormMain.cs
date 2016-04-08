@@ -66,6 +66,7 @@ namespace SinaLogin
         {
             SetText(btnStart, "开始登陆");
             SetEnabled(txtPIN, false);
+            SetEnabled(btnStart, false);
             if (!needPIN)
             {
                 wb = new WeiboLogin(txtUsername.Text, txtPassword.Text);
@@ -76,6 +77,7 @@ namespace SinaLogin
                     needPIN = true;
                     SetText(labelState, "请填写验证码");
                     SetEnabled(txtPIN, true);
+                    SetEnabled(btnStart, true);
                     SetText(btnStart, "继续登陆");
                 }
                 else
@@ -83,6 +85,7 @@ namespace SinaLogin
                     string retcode = wb.End(null);
                     SetText(labelState, "登录结果：" + retcode);
                     SetText(btnStart, "重新登陆");
+                    SetEnabled(btnStart, true);
                     string html = wb.Get("http://weibo.com/5237923337/");
                     SetText(txtRet, html);
                 }
@@ -95,6 +98,7 @@ namespace SinaLogin
                     string retcode = wb.End(txtPIN.Text.Trim());
                     SetText(labelState, "登录结果：" + retcode);
                     SetText(btnStart, "重新登陆");
+                    SetEnabled(btnStart, true);
                     string html = wb.Get("http://weibo.com/quanqiuyulequshi/");
                     SetText(txtRet, html);
                 }
@@ -102,6 +106,7 @@ namespace SinaLogin
                 {
                     MessageBox.Show("请填写验证码");
                     SetEnabled(txtPIN, true);
+                    SetEnabled(btnStart, true);
                 }
             }
         }

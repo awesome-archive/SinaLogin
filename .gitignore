@@ -1,11 +1,20 @@
-#过滤数据库文件、sln解决方案文件、配置文件
-*.mdb
-*.ldb
-*.sln
-*.config
- 
- 
-#过滤文件夹Debug,Release,obj
-Debug/
-Release/
-obj/
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
