@@ -2,7 +2,8 @@
 以前写的，现在重构了一下代码。
 
 ## 界面
-![界面](https://raw.githubusercontent.com/huiyadanli/SinaLogin/master/img/screenshot0.png)
+![界面](https://raw.githubusercontent.com/huiyadanli/SinaLogin/master/img/screenshot2.png)
+![输入验证码](https://raw.githubusercontent.com/huiyadanli/SinaLogin/master/img/screenshot1.png)
 
 ## 模拟登录原理
 1.输入用户名时，发送如下GET请求，返回一大堆登录所需要的参数。其中`entry` `callback` `rsakt`  `client`参数都是固定不变的，`su`是经过Base64加密后的用户名，`checkpin` =1时，会返回`showpin`告诉你是否需要验证码，`_`很明显是时间戳，没有这个参数也可以正常得到返回信息。

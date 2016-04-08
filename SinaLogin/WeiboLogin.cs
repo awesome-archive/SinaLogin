@@ -112,13 +112,14 @@ namespace SinaLogin
             nonce = content.Substring(pos + 8, 6);
             pos = content.IndexOf("showpin");
             showpin = content.Substring(pos + 9, 1);
+            //showpin = "1"; //验证码测试
         }
 
         /// <summary>
         /// 获取验证码图片
         /// </summary>
         /// <returns></returns>
-        private Image GetPIN()
+        public Image GetPIN()
         {
             string url = "http://login.sina.com.cn/cgi/pin.php?p=" + pcid;
             return HttpHelper.GetImage(url);

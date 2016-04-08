@@ -11,10 +11,7 @@ namespace SinaLogin
 {
     public partial class FormMain : Form
     {
-        //下一步
-        //把登录过程放在后台线程中
-        bool needPIN = false;
-        WeiboLogin wb;
+        private WeiboLogin wb;
 
         public FormMain()
         {
@@ -27,6 +24,7 @@ namespace SinaLogin
         }
 
         delegate void SetTextDelegate(Control ctrl, string text);
+
         /// <summary>
         /// 跨线程设置控件Text
         /// </summary>
@@ -45,6 +43,7 @@ namespace SinaLogin
         }
 
         delegate void SetEnabledDelegate(Control ctrl, bool enabled);
+
         /// <summary>
         /// 跨线程设置控件Enabled
         /// </summary>
@@ -64,51 +63,69 @@ namespace SinaLogin
 
         private void bgwLogin_DoWork(object sender, DoWorkEventArgs e)
         {
-            SetText(btnStart, "开始登陆");
-            SetEnabled(txtPIN, false);
-            SetEnabled(btnStart, false);
-            if (!needPIN)
+            SetEnabled(txtUsername, false);
+            SetEnabled(txtPassword, false);
+            SetEnabled(txtOutput, false);
+            SetEnabled(btnLogin, false);
+            string result = "登陆失败，未知错误";
+
+            try
             {
                 wb = new WeiboLogin(txtUsername.Text, txtPassword.Text);
                 Image pinImage = wb.Start();
                 if (pinImage != null)
                 {
-                    picPIN.Image = pinImage;
-                    needPIN = true;
-                    SetText(labelState, "请填写验证码");
-                    SetEnabled(txtPIN, true);
-                    SetEnabled(btnStart, true);
-                    SetText(btnStart, "继续登陆");
+                    Form formPIN = new FormPIN(wb, pinImage);
+                    if (formPIN.ShowDialog() == DialogResult.OK)
+                    {
+                        result = wb.End((string)formPIN.Tag);
+                        string html = wb.Get("http://weibo.com/5237923337/");
+                        SetText(txtOutput, html);
+                    }
+                    else
+                    {
+                        result = "用户没有输入验证码，请重新登陆";
+                    }
                 }
                 else
                 {
-                    string retcode = wb.End(null);
-                    SetText(labelState, "登录结果：" + retcode);
-                    SetText(btnStart, "重新登陆");
-                    SetEnabled(btnStart, true);
+                    result = wb.End(null);
                     string html = wb.Get("http://weibo.com/5237923337/");
-                    SetText(txtRet, html);
+                    SetText(txtOutput, html);
                 }
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            //对登陆结果进行判断并处理
+
+            if (result == "0")
+            {
+                MessageBox.Show("登陆成功！");
+            }
+            else if (result == "2070")
+            {
+                MessageBox.Show("验证码错误，请重新登陆","提示");
+            }
+            else if (result == "101&")
+            {
+                MessageBox.Show("密码错误，请重新登陆","提示");
+            }
+            else if (result == "4049")
+            {
+                MessageBox.Show("验证码为空，请重新登陆", "提示");
             }
             else
             {
-                if (txtPIN.Text.Trim() != "")
-                {
-                    needPIN = false;
-                    string retcode = wb.End(txtPIN.Text.Trim());
-                    SetText(labelState, "登录结果：" + retcode);
-                    SetText(btnStart, "重新登陆");
-                    SetEnabled(btnStart, true);
-                    string html = wb.Get("http://weibo.com/quanqiuyulequshi/");
-                    SetText(txtRet, html);
-                }
-                else
-                {
-                    MessageBox.Show("请填写验证码");
-                    SetEnabled(txtPIN, true);
-                    SetEnabled(btnStart, true);
-                }
+                MessageBox.Show(result, "提示");
             }
+
+            SetEnabled(txtUsername, true);
+            SetEnabled(txtPassword, true);
+            SetEnabled(txtOutput, true);
+            SetEnabled(btnLogin, true);
         }
     }
 }
