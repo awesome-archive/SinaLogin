@@ -35,11 +35,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.bgwLogin = new System.ComponentModel.BackgroundWorker();
+            this.chkForcedpin = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(356, 4);
+            this.btnLogin.Location = new System.Drawing.Point(446, 4);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 23);
             this.btnLogin.TabIndex = 0;
@@ -94,12 +95,23 @@
             // 
             this.bgwLogin.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwLogin_DoWork);
             // 
+            // chkForcedpin
+            // 
+            this.chkForcedpin.AutoSize = true;
+            this.chkForcedpin.Location = new System.Drawing.Point(356, 8);
+            this.chkForcedpin.Name = "chkForcedpin";
+            this.chkForcedpin.Size = new System.Drawing.Size(84, 16);
+            this.chkForcedpin.TabIndex = 8;
+            this.chkForcedpin.Text = "强制验证码";
+            this.chkForcedpin.UseVisualStyleBackColor = true;
+            // 
             // FormMain
             // 
             this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(648, 325);
+            this.Controls.Add(this.chkForcedpin);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtOutput);
@@ -122,6 +134,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.ComponentModel.BackgroundWorker bgwLogin;
+        private System.Windows.Forms.CheckBox chkForcedpin;
     }
 }
 
