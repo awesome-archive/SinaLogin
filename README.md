@@ -1,6 +1,8 @@
 # C#实现新浪微博模拟登录
 以前写的，现在重构了一下代码。
 
+然后我用它做了这个东西：[微博秒赞器](https://github.com/huiyadanli/WeiboMonitor)
+
 ## 界面
 ![界面](https://raw.githubusercontent.com/huiyadanli/SinaLogin/master/img/screenshot2.png)
 ![输入验证码](https://raw.githubusercontent.com/huiyadanli/SinaLogin/master/img/screenshot1.png)
