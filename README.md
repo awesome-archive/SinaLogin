@@ -3,6 +3,40 @@
 
 然后我用它做了这个东西：[微博秒赞器](https://github.com/huiyadanli/WeiboMonitor)
 
+## 注意
+需要自行下载引用 Windows Script Control （用于登陆时密码的加密，详细的解释可以看下面的原理）
+
+## 使用方法
+内有一个 `WeiboLogin` 类用于模拟登陆，参数都写了注释了。
+
+无验证码登陆：
+```
+WeiboLogin wb = new WeiboLogin(txtUsername.Text, txtPassword.Text, false); // 3个参数依次为用户名、密码、是否强制获取验证码
+wb.Start(); // 用于获取相关登陆参数
+wb.End(null); // 用于填写验证码并完成登陆
+```
+
+完整登陆（判断有无验证码）：
+```
+WeiboLogin wb = new WeiboLogin(txtUsername.Text, txtPassword.Text, chkForcedpin.Checked);
+Image pinImage = wb.Start();
+if (pinImage != null)
+{
+    Form formPIN = new FormPIN(wb, pinImage);
+    if (formPIN.ShowDialog() == DialogResult.OK)
+    {
+        result = wb.End((string)formPIN.Tag);
+    }
+}
+else
+{
+    result = wb.End(null);
+}
+```
+
+模拟登陆后可以使用 `WeiboLogin.Get(url)` 方法 GET 微博页面，看看模拟登陆是否成功。
+`WeiboLogin.MyCookies` 属性里保存了登陆后的 Cookies 。
+
 ## 界面
 ![界面](https://raw.githubusercontent.com/huiyadanli/SinaLogin/master/img/screenshot2.png)
 ![输入验证码](https://raw.githubusercontent.com/huiyadanli/SinaLogin/master/img/screenshot1.png)
