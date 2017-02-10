@@ -1,10 +1,13 @@
 # C#实现新浪微博模拟登录
-以前写的，现在重构了一下代码。
+想模仿twitter[year_progress](https://twitter.com/year_progress) 做一个而发送[一年进度的微博](http://weibo.com/bengleme?wvr=5&is_all=1)。
 
-然后我用它做了这个东西：[微博秒赞器](https://github.com/huiyadanli/WeiboMonitor)
+找到一个微博登录的[微博登录器](https://github.com/huiyadanli/SinaLogin)，于是就在这个的基础上加上发送微博。做了这个
 
 ## 注意
 需要自行下载引用 Windows Script Control （用于登陆时密码的加密，详细的解释可以看下面的原理）
+
+## 微博ID是什么？
+访问你要发送的微博账号，登录进得去找到网址，如左侧http://weibo.com/bengleme?wvr=5&is_all=1，bengleme就是微博ID了。  
 
 ## 使用方法
 内有一个 `WeiboLogin` 类用于模拟登陆，参数都写了注释了。
