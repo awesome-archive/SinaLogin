@@ -82,5 +82,26 @@ namespace SinaLogin
             return retStr;
         }
 
+
+        public static string Post(string url, string referer, CookieContainer myCookieContainer, string postDataStr)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded"; //必须要的
+            request.Referer = referer;
+            request.CookieContainer = myCookieContainer;
+            request.ContentLength = postDataStr.Length;
+            StreamWriter writer = new StreamWriter(request.GetRequestStream());
+            writer.Write(postDataStr);
+            writer.Flush();
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            string encoding = response.ContentEncoding;
+            StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("GBK"));
+            string retStr = sr.ReadToEnd();
+            sr.Close();
+            return retStr;
+        }
+
+
     }
 }

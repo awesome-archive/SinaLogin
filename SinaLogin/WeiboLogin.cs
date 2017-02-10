@@ -7,9 +7,26 @@ using System.Net;
 using System.Threading;
 using System.IO;
 using System.Drawing;
+using Newtonsoft.Json;
 
 namespace SinaLogin
 {
+    /// <summary>
+    /// 用于Json解析
+    /// </summary>
+    public class ResponseJson
+    {
+        public string code { get; set; }
+        public string msg { get; set; }
+        public DataJson data { get; set; }
+
+        public class DataJson
+        {
+            public int isDel { get; set; }
+            public string html { get; set; }
+        }
+    }
+
     public class WeiboLogin
     {
         /// <summary>
@@ -21,6 +38,8 @@ namespace SinaLogin
         /// 密码
         /// </summary>
         public string Password { get; set; }
+
+        public string WeiboID { get; set; }
 
         //存放登陆后的cookie
         private CookieContainer myCookies = new CookieContainer();
@@ -47,11 +66,12 @@ namespace SinaLogin
         /// </summary>
         /// <param name="username">用户名</param>
         /// <param name="password">密码</param>
-        public WeiboLogin(string username, string password, bool forcedpin)
+        public WeiboLogin(string username, string password, bool forcedpin, string weiboID)
         {
             this.Username = username;
             this.Password = password;
             this.forcedpin = forcedpin;
+            this.WeiboID = weiboID;
 
             //Base64加密用户名
             Encoding myEncoding = Encoding.GetEncoding("utf-8");
@@ -85,6 +105,8 @@ namespace SinaLogin
         {
             string retcode;
             myCookies = GetCookie(door, out retcode);
+            //发送微博试试
+            SendWeibo(this);
             return retcode;
         }
 
@@ -181,6 +203,57 @@ namespace SinaLogin
                 retcode = content.Substring(pos + 8, 4);
                 return null;
             }
+        }
+
+
+
+        /// <summary>
+        /// 发微博
+        /// </summary>
+        /// <param name="wbLogin"></param>
+        /// <param name="yOrN">是点赞，还是取消赞</param>
+        /// <returns></returns>
+        public int SendWeibo(WeiboLogin wbLogin)
+        {
+            try
+            {
+                TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                string url = "http://weibo.com/aj/mblog/add?ajwvr=6&__rnd=" + Convert.ToInt64(ts.TotalMilliseconds);
+                string postStr = "location=v6_content_home&text={0}&appkey=&style_type=1&pic_id=&pdetail=&rank=0&rankid=&module=stissue&pub_source=main_&pub_type=dialog&_t=0";
+                postStr = string.Format(postStr, GetWeiboContent());
+                string refer = "http://weibo.com/" + this.WeiboID + "/home?topnav=1&wvr=6";
+                string responseStr = HttpHelper.Post(url, refer, wbLogin.MyCookies, postStr);
+                ResponseJson responseJson = JsonConvert.DeserializeObject<ResponseJson>(responseStr);
+                return responseJson.data.isDel;
+            }
+            catch
+            {
+                return -1;
+            }
+
+        }
+
+       
+        private string GetWeiboContent()
+        {
+            int process = (DateTime.Now.DayOfYear * 100) / 365;
+            string compeletePro = "▓";
+            string unCom = "░";
+            int size = process / 5;
+            string pro = "";
+            for (int i = 0; i < size; i++)
+            {
+                pro += compeletePro;
+            }
+
+            int unSize = 20 - size;
+            for (int i = 0; i < unSize; i++)
+            {
+                pro += unCom;
+            }
+            pro += "  " + process + "%";
+            pro = HttpUtility.UrlEncode(pro, Encoding.UTF8); 
+            return pro;
         }
     }
 }

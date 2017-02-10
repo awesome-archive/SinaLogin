@@ -36,6 +36,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.bgwLogin = new System.ComponentModel.BackgroundWorker();
             this.chkForcedpin = new System.Windows.Forms.CheckBox();
+            this.btnStart = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtWeiID = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnLogin
@@ -65,11 +68,11 @@
             // 
             // txtOutput
             // 
-            this.txtOutput.Location = new System.Drawing.Point(14, 33);
+            this.txtOutput.Location = new System.Drawing.Point(14, 62);
             this.txtOutput.Multiline = true;
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtOutput.Size = new System.Drawing.Size(624, 280);
+            this.txtOutput.Size = new System.Drawing.Size(624, 262);
             this.txtOutput.TabIndex = 5;
             this.txtOutput.WordWrap = false;
             // 
@@ -105,12 +108,41 @@
             this.chkForcedpin.Text = "强制验证码";
             this.chkForcedpin.UseVisualStyleBackColor = true;
             // 
+            // btnStart
+            // 
+            this.btnStart.Location = new System.Drawing.Point(541, 4);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(75, 23);
+            this.btnStart.TabIndex = 9;
+            this.btnStart.Text = "开始";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click_1);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(15, 38);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 12);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "微博ID：";
+            // 
+            // txtWeiID
+            // 
+            this.txtWeiID.Location = new System.Drawing.Point(66, 34);
+            this.txtWeiID.Name = "txtWeiID";
+            this.txtWeiID.Size = new System.Drawing.Size(284, 21);
+            this.txtWeiID.TabIndex = 11;
+            // 
             // FormMain
             // 
             this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(648, 325);
+            this.ClientSize = new System.Drawing.Size(648, 340);
+            this.Controls.Add(this.txtWeiID);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.btnStart);
             this.Controls.Add(this.chkForcedpin);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -119,7 +151,8 @@
             this.Controls.Add(this.txtUsername);
             this.Controls.Add(this.btnLogin);
             this.Name = "FormMain";
-            this.Text = "新浪微博模拟登录Demo";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "模拟登录";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -135,6 +168,9 @@
         private System.Windows.Forms.Label label2;
         private System.ComponentModel.BackgroundWorker bgwLogin;
         private System.Windows.Forms.CheckBox chkForcedpin;
+        private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtWeiID;
     }
 }
 
